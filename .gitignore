@@ -1,0 +1,10 @@
+__pycache__
+.vscode
+
+*.zip
+
+*.pdf
+
+0521_new_format
+
+sample.json
