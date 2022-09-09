@@ -48,15 +48,11 @@ for filename in filelists:
                     实体
                     '''
                     entityType = eval(entity["entity_type"])
-                    results, meta = neomodel.db.cypher_query(
-                        "MATCH (n:%s{name:'%s'}) RETURN n LIMIT 1"
-                        % (entity["entity_type"], entity["entity"])
-                    )
-                    if 0 == len(results):
+                    # 需要注意这里要是 属性的实际名
+                    node = entityType.nodes.first_or_none(name_=entity["entity"])
+                    if None==node:
                         node = entityType(name=entity["entity"])
                         node.save()
-                    else:
-                        node = entityType.inflate(results[0][0])
                     entities[entity["entity_id"]] = node
                 for relation in sentence["relations"]:
                     head = entities[relation['head_entity_id']]
